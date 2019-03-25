@@ -6,6 +6,7 @@ import android.hardware.Camera;
 import android.media.CamcorderProfile;
 import android.media.MediaRecorder;
 import android.os.Environment;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,6 +15,7 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import com.irfanullah.videodune.Classes.CameraPreview;
 
@@ -25,18 +27,64 @@ public class RecordVideo extends AppCompatActivity implements SurfaceHolder.Call
     private CameraPreview cameraPreview;
     Context context;
     Camera camera;
-
+    TextView cd;
+    Handler handler;
+    int COUNT_DOWN = 120;
+    int MINUTE = 60;
     private static final String TAG = "RecordVideo";
     MediaRecorder mediaRecorder;
     boolean recording = false;
     SurfaceHolder surfaceHolder;
-    Button button;
+    Button button, restartBtn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_record_video);
         layout = (SurfaceView) findViewById(R.id.frameLayout);
-        button = findViewById(R.id.button);
+        button = findViewById(R.id.startStopBtn);
+        restartBtn = findViewById(R.id.restartBtn);
+        cd = findViewById(R.id.countDownTextView);
+
+        handler = new Handler();
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                if(COUNT_DOWN > MINUTE && COUNT_DOWN > 60 && MINUTE > 0){
+                    COUNT_DOWN--;
+                    MINUTE--;
+                    if(MINUTE < 10 || MINUTE == 0) {
+                        cd.setText("01:0" + Integer.toString(MINUTE));
+                    }else {
+                        cd.setText("01:" + Integer.toString(MINUTE));
+                    }
+
+                    handler.postDelayed(this,1000);
+                }
+                else if(COUNT_DOWN <= 60 && COUNT_DOWN >= 0 && MINUTE >= 0) {
+                    COUNT_DOWN--;
+
+                    if(MINUTE <= 0) {
+                        MINUTE = 60;
+                    }
+
+                    MINUTE--;
+
+                    if(MINUTE < 10 || MINUTE == 0) {
+                        cd.setText("00:0" + Integer.toString(MINUTE));
+                    }else {
+                        cd.setText("00:" + Integer.toString(MINUTE));
+                    }
+
+                    if(COUNT_DOWN > 0) {
+                        handler.postDelayed(this, 1000);
+                    }
+                }else {
+                    //call of recording
+                }
+
+            }
+        });
+
 
         camera = Camera.open();
         Camera.Parameters parameters = camera.getParameters();
