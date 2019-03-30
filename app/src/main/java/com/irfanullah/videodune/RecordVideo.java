@@ -5,6 +5,7 @@ import android.content.pm.PackageManager;
 import android.hardware.Camera;
 import android.media.CamcorderProfile;
 import android.media.MediaRecorder;
+import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -14,12 +15,14 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.irfanullah.videodune.Classes.CameraPreview;
 
 import java.io.IOException;
+import java.sql.Timestamp;
+
+import static android.app.PendingIntent.getActivity;
 
 public class RecordVideo extends AppCompatActivity implements SurfaceHolder.Callback {
 
@@ -44,52 +47,13 @@ public class RecordVideo extends AppCompatActivity implements SurfaceHolder.Call
         button = findViewById(R.id.startStopBtn);
         restartBtn = findViewById(R.id.restartBtn);
         cd = findViewById(R.id.countDownTextView);
-
-        handler = new Handler();
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                if(COUNT_DOWN > MINUTE && COUNT_DOWN > 60 && MINUTE > 0){
-                    COUNT_DOWN--;
-                    MINUTE--;
-                    if(MINUTE < 10 || MINUTE == 0) {
-                        cd.setText("01:0" + Integer.toString(MINUTE));
-                    }else {
-                        cd.setText("01:" + Integer.toString(MINUTE));
-                    }
-
-                    handler.postDelayed(this,1000);
-                }
-                else if(COUNT_DOWN <= 60 && COUNT_DOWN >= 0 && MINUTE >= 0) {
-                    COUNT_DOWN--;
-
-                    if(MINUTE <= 0) {
-                        MINUTE = 60;
-                    }
-
-                    MINUTE--;
-
-                    if(MINUTE < 10 || MINUTE == 0) {
-                        cd.setText("00:0" + Integer.toString(MINUTE));
-                    }else {
-                        cd.setText("00:" + Integer.toString(MINUTE));
-                    }
-
-                    if(COUNT_DOWN > 0) {
-                        handler.postDelayed(this, 1000);
-                    }
-                }else {
-                    //call of recording
-                }
-
-            }
-        });
-
-
         camera = Camera.open();
-        Camera.Parameters parameters = camera.getParameters();
-        camera.setParameters(parameters);
+//        Camera.Parameters parameters = camera.getParameters();
+//        camera.setParameters(parameters);
         camera.unlock();
+
+
+
 
         surfaceHolder = layout.getHolder();
 
@@ -97,20 +61,38 @@ public class RecordVideo extends AppCompatActivity implements SurfaceHolder.Call
         surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
         context = this;
 
-        mediaRecorder = new MediaRecorder();
-        initMediaRecorder();
+        Thread tt = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                mediaRecorder = new MediaRecorder();
+                initMediaRecorder();
+            }
+        });
+        tt.start();
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(recording){
-                    mediaRecorder.stop();
-                    //camera.release();
-                    //camera.lock();
-                    mediaRecorder.release();
+
+                    try {
+                        mediaRecorder.stop();
+                        mediaRecorder.release();
+                    }catch (Exception e){
+                        Log.i(TAG,e.toString());
+                    }
+
+                    camera.release();
+                    button.setText("Start Recording");
                     recording = false;
                 }else {
-                    mediaRecorder.start();
+                    prepareMediaRecorder();
+                    button.setText("Stop Recording");
+                            camera.release();
+                            mediaRecorder.start();
+
+
+                 //   countDownTimer();
                     recording = true;
                 }
 
@@ -122,19 +104,31 @@ public class RecordVideo extends AppCompatActivity implements SurfaceHolder.Call
     }
 
     private void initMediaRecorder(){
-        try {
-            camera.setPreviewDisplay(surfaceHolder);
+//        try {
+//            camera.setPreviewDisplay(surfaceHolder);
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
         mediaRecorder.setCamera(camera);   // like this!
         mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-        mediaRecorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
+        mediaRecorder.setVideoSource(MediaRecorder.VideoSource.DEFAULT);
 
         CamcorderProfile camcorderProfile_HQ = CamcorderProfile.get(CamcorderProfile.QUALITY_HIGH);
         mediaRecorder.setProfile(camcorderProfile_HQ);
-        mediaRecorder.setOutputFile(Environment.getExternalStorageDirectory().getAbsolutePath() + "/myvideo.mp4");
+        mediaRecorder.setVideoEncodingBitRate(10000000);
+        mediaRecorder.setVideoFrameRate(30);
+
+        //get the time stamp
+        String timestamp = new Timestamp(System.currentTimeMillis()).toString();
+        //remove the seconds part
+        timestamp = timestamp.substring(0, timestamp.length()-6).replaceAll(":","");
+        //append file name to the time stamp
+        String filestamp =  timestamp;
+
+        mediaRecorder.setOutputFile(Environment.getExternalStorageDirectory().getAbsolutePath() + "/myvideo"+filestamp+".mp4");
 
         mediaRecorder.setMaxDuration(120000); // Set max duration 60 sec.
         mediaRecorder.setMaxFileSize(5000000); // Set max file size 5M
@@ -193,6 +187,80 @@ public class RecordVideo extends AppCompatActivity implements SurfaceHolder.Call
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
+        }
+    }
+
+    private void countDownTimer(){
+        handler = new Handler();
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                if(COUNT_DOWN > MINUTE && COUNT_DOWN > 60 && MINUTE > 0){
+                    COUNT_DOWN--;
+                    MINUTE--;
+                    if(MINUTE < 10 || MINUTE == 0) {
+                        cd.setText("01:0" + Integer.toString(MINUTE));
+                    }else {
+                        cd.setText("01:" + Integer.toString(MINUTE));
+                    }
+
+                    handler.postDelayed(this,1000);
+                }
+                else if(COUNT_DOWN <= 60 && COUNT_DOWN >= 0 && MINUTE >= 0) {
+                    COUNT_DOWN--;
+
+                    if(MINUTE <= 0) {
+                        MINUTE = 60;
+                    }
+
+                    MINUTE--;
+
+                    if(MINUTE < 10 || MINUTE == 0) {
+                        cd.setText("00:0" + Integer.toString(MINUTE));
+                    }else {
+                        cd.setText("00:" + Integer.toString(MINUTE));
+                    }
+
+                    if(COUNT_DOWN > 0) {
+                        handler.postDelayed(this, 1000);
+                    }else {
+                        //call off recording
+                        mediaRecorder.stop();
+                        //camera.release();
+                        //camera.lock();
+                        button.setText("Start Recording");
+                        mediaRecorder.release();
+                        recording = false;
+                    }
+                }else {
+                    //call off recording
+                    mediaRecorder.stop();
+                    //camera.release();
+                    //camera.lock();
+                    button.setText("Start Recording");
+                    mediaRecorder.release();
+                    recording = false;
+                }
+
+            }
+        });
+
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+           // mediaRecorder.pause();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+         //   mediaRecorder.resume();
         }
     }
 }

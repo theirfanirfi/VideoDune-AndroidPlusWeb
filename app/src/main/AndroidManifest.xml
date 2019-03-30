@@ -4,11 +4,15 @@
     package="com.irfanullah.videodune">
 
     <dist:module dist:instant="true" />
+
     <uses-feature android:name="android.hardware.camera" />
-    <uses-permission android:name="android.permission.CAMERA"/>
+
+    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.RECORD_VIDEO" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -16,16 +20,28 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".RecordVideo">
+        <activity android:name=".SettingsActivity" android:theme="@style/FullScreen">
+
+        </activity>
+        <activity
+            android:name=".LoginActivity"
+            android:theme="@style/FullScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity">
+        <activity
+            android:name=".WelcomeActivity"
+            android:theme="@style/FullScreen"></activity>
+        <activity
+            android:name=".RegisterActivity"
+            android:theme="@style/FullScreen">
 
         </activity>
+        <activity android:name=".RecordVideo" />
+        <activity android:name=".MainActivity" />
     </application>
 
 </manifest>
