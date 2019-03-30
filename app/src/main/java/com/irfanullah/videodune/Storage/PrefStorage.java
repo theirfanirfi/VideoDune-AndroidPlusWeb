@@ -11,6 +11,7 @@ public class PrefStorage {
     public static SharedPreferences.Editor editor;
     public static String PREF_STORAGE_FILE = "users";
     public static String USER_PREF_DETAILS = "user";
+    public static String USER_SETTINGS_PREF_DETAILS = "user_settings";
 
     public static SharedPreferences getSharedPreference(Context context)
     {

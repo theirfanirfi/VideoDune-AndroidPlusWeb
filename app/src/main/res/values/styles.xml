@@ -9,7 +9,7 @@
     </style>
 
     <style name="FullScreen" parent="Theme.AppCompat.Light.NoActionBar">
-
+        <item name="android:background">@color/colorRed</item>
     </style>
 
 </resources>
