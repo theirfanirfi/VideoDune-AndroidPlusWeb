@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.google.gson.Gson;
+import com.irfanullah.videodune.Models.Settings;
 import com.irfanullah.videodune.Models.User;
 
 public class PrefStorage {
@@ -38,11 +39,25 @@ public class PrefStorage {
         return userDetails;
     }
 
+    public static String getSettingsData(Context context)
+    {
+        String settings = "";
+        settings = getSharedPreference(context).getString(USER_SETTINGS_PREF_DETAILS,"");
+        return settings;
+    }
+
     public static User getUser(Context context)
     {
         Gson gson = new Gson();
         User user = gson.fromJson(PrefStorage.getUserData(context),User.class);
         return user;
+    }
+
+    public static Settings getSettings(Context context)
+    {
+        Gson gson = new Gson();
+        Settings settings = gson.fromJson(PrefStorage.getSettingsData(context),Settings.class);
+        return settings;
     }
 
     public static Boolean isMe(Context context,int USER_ID){

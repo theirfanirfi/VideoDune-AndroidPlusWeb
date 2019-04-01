@@ -12,4 +12,8 @@
         <item name="android:background">@color/colorRed</item>
     </style>
 
+    <style name="RedScreen" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:background">@color/colorRed</item>
+    </style>
+
 </resources>

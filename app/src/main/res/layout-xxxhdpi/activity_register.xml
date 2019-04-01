@@ -12,11 +12,11 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="96dp"
+        android:layout_marginTop="68dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:text="Register"
-        android:textColor="@color/colorBlack"
+        android:textColor="@color/colorWhite"
         android:textSize="34sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -24,7 +24,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/addressTextView"
+        android:id="@+id/fbField"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -32,13 +32,15 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
+        android:background="@drawable/editfield"
+        android:padding="12dp"
         android:ems="10"
         android:hint="Email"
         android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/usernameTextView" />
+        app:layout_constraintTop_toBottomOf="@+id/emailField" />
 
     <EditText
         android:id="@+id/passwordTextView"
@@ -51,13 +53,15 @@
         android:layout_marginRight="8dp"
         android:hint="Password"
         android:ems="10"
+        android:background="@drawable/editfield"
+        android:padding="12dp"
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addressTextView" />
+        app:layout_constraintTop_toBottomOf="@+id/fbField" />
 
     <Button
-        android:id="@+id/saveBtn"
+        android:id="@+id/finishBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -65,6 +69,8 @@
         android:layout_marginTop="48dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
+        android:background="@drawable/btn"
+        android:textColor="@color/colorWhite"
         android:text="Register"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
@@ -81,20 +87,22 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:text="Login"
-        android:textColor="@color/colorBlack"
+        android:textColor="@color/colorWhite"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/saveBtn" />
+        app:layout_constraintTop_toBottomOf="@+id/finishBtn" />
 
     <EditText
-        android:id="@+id/usernameTextView"
+        android:id="@+id/emailField"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="92dp"
+        android:layout_marginTop="56dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
+        android:background="@drawable/editfield"
+        android:padding="12dp"
         android:ems="10"
         android:hint="Full Name"
         android:inputType="textPersonName"

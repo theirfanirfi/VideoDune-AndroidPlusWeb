@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -51,9 +50,9 @@ public class LoginActivity extends AppCompatActivity {
 
     private void initObjects(){
         context = this;
-        emailTextView = findViewById(R.id.addressTextView);
+        emailTextView = findViewById(R.id.fbField);
         passwordTextView = findViewById(R.id.passwordTextView);
-        loginBtn = findViewById(R.id.saveBtn);
+        loginBtn = findViewById(R.id.finishBtn);
         regLink = findViewById(R.id.linkToRegister);
     }
 
@@ -68,7 +67,7 @@ public class LoginActivity extends AppCompatActivity {
                 }else {
                     makeLoginRequest();
                 }
-                    Log.i(TAG, "onClick: "+email+ " : "+password);
+                   // Log.i(TAG, "onClick: "+email+ " : "+password);
             }
         });
     }
@@ -84,7 +83,8 @@ public class LoginActivity extends AppCompatActivity {
                     if(user.isLoggedIn()){
                         Gson gson = new Gson();
                         PrefStorage.getEditor(context).putString(PrefStorage.USER_PREF_DETAILS,gson.toJson(user.getUSER())).commit();
-                        gotoMainActivity();
+                      //  Log.i(TAG, "onResponse: "+PrefStorage.getUser(context).getTOKEN());
+                       // gotoMainActivity();
                     }else{
                         RetroLib.toastHere(context,user.getMESSAGE());
                     }

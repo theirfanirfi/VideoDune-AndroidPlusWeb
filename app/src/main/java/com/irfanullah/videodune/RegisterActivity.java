@@ -51,11 +51,11 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void initObjects(){
         context = this;
-        emailTextView = findViewById(R.id.addressTextView);
+        emailTextView = findViewById(R.id.fbField);
         passwordTextView = findViewById(R.id.passwordTextView);
-        loginBtn = findViewById(R.id.saveBtn);
+        loginBtn = findViewById(R.id.finishBtn);
         linkToLogin = findViewById(R.id.linkToLogin);
-        nameTextView = findViewById(R.id.usernameTextView);
+        nameTextView = findViewById(R.id.emailField);
     }
 
     private void loginBtnClickEvent(){

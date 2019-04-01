@@ -22,6 +22,7 @@ public class SettingsActivity extends AppCompatActivity {
     String username = "", address = "", hashtag = "";
     Context context;
     Button saveBtn;
+    private static final String TAG = "SettingsActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,13 +50,17 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void initObjects() {
-        usernameEditText = findViewById(R.id.usernameTextView);
-        addressEditText = findViewById(R.id.addressTextView);
-        hashTagEditText = findViewById(R.id.hashTagEditText);
-        saveBtn = findViewById(R.id.saveBtn);
+        context = this;
+        usernameEditText = findViewById(R.id.emailField);
+        addressEditText = findViewById(R.id.fbField);
+        hashTagEditText = findViewById(R.id.personalHashTagEditText);
+        saveBtn = findViewById(R.id.finishBtn);
+
+        loadSaveSettings();
     }
 
     private void saveSettingsRequest(){
+        //Log.i(TAG, "saveSettingsRequest: "+PrefStorage.getUserData(context).toString());
         RetroLib.geApiService().saveSettings(PrefStorage.getUser(context).getTOKEN(),username,address,hashtag).enqueue(new Callback<Settings>() {
             @Override
             public void onResponse(Call<Settings> call, Response<Settings> response) {
@@ -76,5 +81,14 @@ public class SettingsActivity extends AppCompatActivity {
                 RetroLib.toastHere(context,t.getMessage());
             }
         });
+    }
+
+    private void loadSaveSettings(){
+        Settings settings = PrefStorage.getSettings(context);
+        if(!settings.getUSERNAME().isEmpty() && !settings.getADDRESS().isEmpty() && !settings.getHASHTAG().isEmpty()){
+            usernameEditText.setText(settings.getUSERNAME().toString());
+            addressEditText.setText(settings.getADDRESS().toString());
+            hashTagEditText.setText(settings.getHASHTAG().toString());
+        }
     }
 }

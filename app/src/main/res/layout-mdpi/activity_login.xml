@@ -16,26 +16,27 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:text="Login"
-        android:textColor="@color/colorBlack"
+        android:textColor="@color/colorWhite"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/addressTextView"
+        android:id="@+id/fbField"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
+        android:background="@drawable/editfield"
         android:ems="10"
         android:hint="Email"
         android:inputType="textEmailAddress"
+        android:padding="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -51,24 +52,27 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:hint="Password"
+        android:padding="10dp"
+        android:background="@drawable/editfield"
         android:ems="10"
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addressTextView" />
+        app:layout_constraintTop_toBottomOf="@+id/fbField" />
 
     <Button
-        android:id="@+id/saveBtn"
+        android:id="@+id/finishBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="40dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
+        android:background="@drawable/btn"
         android:text="Login"
+        android:textColor="@color/colorWhite"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/passwordTextView" />
 
@@ -82,10 +86,10 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:text="Register"
-        android:textColor="@color/colorBlack"
+        android:textColor="@color/colorWhite"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/saveBtn" />
+        app:layout_constraintTop_toBottomOf="@+id/finishBtn" />
 
 
 </android.support.constraint.ConstraintLayout>
