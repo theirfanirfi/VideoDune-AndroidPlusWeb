@@ -70,6 +70,12 @@ public class RegisterActivity extends AppCompatActivity {
                 }else if(password.length() < 6){
                     RetroLib.toastHere(context,"Password Length must be at least 6 characters.");
                 } else {
+
+                    if(PrefStorage.checkUser(context)) {
+                        makeRegisterationRequest();
+                    }else {
+                        RetroLib.toastHere(context,"You need to login.");
+                    }
                     makeRegisterationRequest();
                 }
                 Log.i(TAG, "onClick: "+email+ " : "+password);

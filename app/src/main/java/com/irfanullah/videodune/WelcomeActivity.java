@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 
 public class WelcomeActivity extends AppCompatActivity {
 
@@ -18,6 +19,7 @@ public class WelcomeActivity extends AppCompatActivity {
     int REQUEST_VIDEO_CAPTURE = 333;
     int VIDEO_RECORDING_DURATION = 120;
     int VIDEO_QUALITY = 1;
+    ImageView setting;
     private static final String TAG = "WelcomeActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,11 +31,20 @@ public class WelcomeActivity extends AppCompatActivity {
     private void initObjects() {
         context = this;
         startBtn = findViewById(R.id.startBtn);
+        setting = findViewById(R.id.imageViewSetting);
 
         startBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 gotoCameraActivity();
+            }
+        });
+
+        setting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent settingAct = new Intent(context,SettingsActivity.class);
+                startActivity(settingAct);
             }
         });
     }

@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent finalAct = new Intent(context,FinalActivity.class);
+                finalAct.putExtra("videoUri",videoURI.toString());
                 startActivity(finalAct);
             }
         });

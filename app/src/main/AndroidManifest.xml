@@ -23,18 +23,20 @@
         <activity android:name=".FinalActivity" android:parentActivityName=".WelcomeActivity" android:theme="@style/RedScreen"></activity>
         <activity
             android:name=".SettingsActivity"
-            android:theme="@style/RedScreen"></activity>
+            android:theme="@style/RedScreen" android:parentActivityName=".WelcomeActivity"></activity>
         <activity
             android:name=".LoginActivity"
-            android:theme="@style/FullScreen"></activity>
-        <activity
-            android:name=".WelcomeActivity"
             android:theme="@style/FullScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".WelcomeActivity"
+            android:theme="@style/FullScreen">
+
         </activity>
         <activity
             android:name=".RegisterActivity"

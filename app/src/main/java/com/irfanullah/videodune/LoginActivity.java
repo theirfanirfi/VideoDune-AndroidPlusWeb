@@ -36,6 +36,21 @@ public class LoginActivity extends AppCompatActivity {
         initObjects();
         loginBtnClickEvent();
         gotoRegisterationActivity();
+        checkLoginAndSettingsStatus();
+    }
+
+    private void checkLoginAndSettingsStatus() {
+        if(PrefStorage.getSharedPreference(context).contains(PrefStorage.USER_PREF_DETAILS)){
+            if(PrefStorage.getSharedPreference(context).contains(PrefStorage.USER_SETTINGS_PREF_DETAILS)){
+                Intent startAct = new Intent(context,WelcomeActivity.class);
+                startActivity(startAct);
+            }else {
+                Intent settingsAct = new Intent(context,SettingsActivity.class);
+                startActivity(settingsAct);
+            }
+        }else {
+            //stay on login page
+        }
     }
 
     private void gotoRegisterationActivity() {
@@ -65,7 +80,13 @@ public class LoginActivity extends AppCompatActivity {
                 if(email.isEmpty() || password.isEmpty()) {
                     RetroLib.toastHere(context, "None of the field can be empty");
                 }else {
-                    makeLoginRequest();
+
+                    if(PrefStorage.checkUser(context)) {
+                        makeLoginRequest();
+                    }else {
+                        RetroLib.toastHere(context,"You need to login.");
+                    }
+
                 }
                    // Log.i(TAG, "onClick: "+email+ " : "+password);
             }

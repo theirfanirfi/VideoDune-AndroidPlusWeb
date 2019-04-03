@@ -63,4 +63,13 @@ public class PrefStorage {
     public static Boolean isMe(Context context,int USER_ID){
         return getUser(context).getUSER_ID() == USER_ID ? true : false;
     }
+
+    public static boolean checkUser(Context context){
+        return getSharedPreference(context).contains(USER_PREF_DETAILS);
+    }
+
+    public static boolean checkSettings(Context context){
+        return getSharedPreference(context).contains(USER_SETTINGS_PREF_DETAILS);
+    }
+
 }

@@ -9,7 +9,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetroLib {
-    public static final String BASE_URL = "http://192.168.10.3/";
+    public static final String BASE_URL = "http://192.168.10.5/";
     private static Retrofit retrofit;
 
     public static Retrofit getRetrofit() {
@@ -31,5 +31,7 @@ public class RetroLib {
     public static void toastHere(Context context, String message){
         Toast.makeText(context,message,Toast.LENGTH_LONG).show();
     }
+
+
 }
 

@@ -1,6 +1,7 @@
 package com.irfanullah.videodune;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -43,7 +44,11 @@ public class SettingsActivity extends AppCompatActivity {
                 if(username.isEmpty() || address.isEmpty() || hashtag.isEmpty()){
                     RetroLib.toastHere(context,"None of the fields can be empty.");
                 }else {
-                    saveSettingsRequest();
+                    if(PrefStorage.checkUser(context)) {
+                        saveSettingsRequest();
+                    }else {
+                        RetroLib.toastHere(context,"You need to login.");
+                    }
                 }
             }
         });
@@ -71,6 +76,8 @@ public class SettingsActivity extends AppCompatActivity {
                     Gson gson = new Gson();
                     PrefStorage.getEditor(context).putString(PrefStorage.USER_SETTINGS_PREF_DETAILS,gson.toJson(settings.getSETTINGS())).commit();
                     RetroLib.toastHere(context,"Settings Saved.");
+
+                    gotoStartActivity();
                 }else {
                     RetroLib.toastHere(context,settings.getMESSAGE());
                 }
@@ -83,12 +90,19 @@ public class SettingsActivity extends AppCompatActivity {
         });
     }
 
+    private void gotoStartActivity() {
+        Intent startAct = new Intent(context,WelcomeActivity.class);
+        startActivity(startAct);
+    }
+
     private void loadSaveSettings(){
-        Settings settings = PrefStorage.getSettings(context);
-        if(!settings.getUSERNAME().isEmpty() && !settings.getADDRESS().isEmpty() && !settings.getHASHTAG().isEmpty()){
-            usernameEditText.setText(settings.getUSERNAME().toString());
-            addressEditText.setText(settings.getADDRESS().toString());
-            hashTagEditText.setText(settings.getHASHTAG().toString());
+        if(PrefStorage.getSharedPreference(context).contains(PrefStorage.USER_SETTINGS_PREF_DETAILS)) {
+            Settings settings = PrefStorage.getSettings(context);
+            if (!settings.getUSERNAME().isEmpty() && !settings.getADDRESS().isEmpty() && !settings.getHASHTAG().isEmpty()) {
+                usernameEditText.setText(settings.getUSERNAME().toString());
+                addressEditText.setText(settings.getADDRESS().toString());
+                hashTagEditText.setText(settings.getHASHTAG().toString());
+            }
         }
     }
 }
