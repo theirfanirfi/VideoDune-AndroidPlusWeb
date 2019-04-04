@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -31,6 +33,25 @@ public class SettingsActivity extends AppCompatActivity {
         initObjects();
         saveBtnClickEvent();
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.settings_menu,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if(id == R.id.logout){
+            PrefStorage.getEditor(context).remove(PrefStorage.USER_PREF_DETAILS).commit();
+            PrefStorage.getEditor(context).remove(PrefStorage.USER_SETTINGS_PREF_DETAILS).commit();
+            Intent loginAct = new Intent(context,LoginActivity.class);
+            startActivity(loginAct);
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     private void saveBtnClickEvent() {
@@ -104,5 +125,11 @@ public class SettingsActivity extends AppCompatActivity {
                 hashTagEditText.setText(settings.getHASHTAG().toString());
             }
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        finish();
     }
 }

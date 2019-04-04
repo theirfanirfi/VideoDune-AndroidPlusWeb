@@ -71,12 +71,12 @@ public class RegisterActivity extends AppCompatActivity {
                     RetroLib.toastHere(context,"Password Length must be at least 6 characters.");
                 } else {
 
-                    if(PrefStorage.checkUser(context)) {
+                   /// if(PrefStorage.checkUser(context)) {
                         makeRegisterationRequest();
-                    }else {
-                        RetroLib.toastHere(context,"You need to login.");
-                    }
-                    makeRegisterationRequest();
+//                    }else {
+//                        RetroLib.toastHere(context,"You need to login.");
+//                    }
+//                    makeRegisterationRequest();
                 }
                 Log.i(TAG, "onClick: "+email+ " : "+password);
             }
@@ -94,7 +94,7 @@ public class RegisterActivity extends AppCompatActivity {
                     if(user.isIS_CREATED()){
                         Gson gson = new Gson();
                         PrefStorage.getEditor(context).putString(PrefStorage.USER_PREF_DETAILS,gson.toJson(user.getUSER())).commit();
-                        gotoMainActivity();
+                        gotoSettingsActivity();
                     }else{
                         RetroLib.toastHere(context,user.getMESSAGE());
                     }
@@ -108,8 +108,15 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
-    private void gotoMainActivity(){
-        Intent mainAct = new Intent(this,MainActivity.class);
-        startActivity(mainAct);
+    private void gotoSettingsActivity(){
+        Intent settingAct = new Intent(this,SettingsActivity.class);
+        startActivity(settingAct);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        finish();
     }
 }

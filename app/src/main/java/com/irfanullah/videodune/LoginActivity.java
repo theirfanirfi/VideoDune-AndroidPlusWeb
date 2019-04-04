@@ -81,11 +81,11 @@ public class LoginActivity extends AppCompatActivity {
                     RetroLib.toastHere(context, "None of the field can be empty");
                 }else {
 
-                    if(PrefStorage.checkUser(context)) {
+                 //   if(PrefStorage.checkUser(context)) {
                         makeLoginRequest();
-                    }else {
-                        RetroLib.toastHere(context,"You need to login.");
-                    }
+//                    }else {
+//                        RetroLib.toastHere(context,"You need to login.");
+//                    }
 
                 }
                    // Log.i(TAG, "onClick: "+email+ " : "+password);
@@ -105,7 +105,7 @@ public class LoginActivity extends AppCompatActivity {
                         Gson gson = new Gson();
                         PrefStorage.getEditor(context).putString(PrefStorage.USER_PREF_DETAILS,gson.toJson(user.getUSER())).commit();
                       //  Log.i(TAG, "onResponse: "+PrefStorage.getUser(context).getTOKEN());
-                       // gotoMainActivity();
+                        gotoSettingsActivity();
                     }else{
                         RetroLib.toastHere(context,user.getMESSAGE());
                     }
@@ -119,8 +119,14 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void gotoMainActivity(){
-        Intent mainAct = new Intent(this,MainActivity.class);
-        startActivity(mainAct);
+    private void gotoSettingsActivity(){
+        Intent settingAct = new Intent(this,SettingsActivity.class);
+        startActivity(settingAct);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        finish();
     }
 }
